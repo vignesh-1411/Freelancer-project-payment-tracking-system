@@ -8,4 +8,4 @@ class Freelancer:
         self.experience_years=experience_years
 
     def __str__(self):
-        return f"ID: {self.freelancer_id}, Name: {self.name}, Email:"
+        return f"ID: {self.freelancer_id}, Name: {self.name}, Email: {self.email}, Phone: {self.phone}, Skills: {self.skills}, Experience Years: {self.experience_years}"
