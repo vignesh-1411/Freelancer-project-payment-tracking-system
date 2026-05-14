@@ -1,5 +1,5 @@
 class Task:
-    def __init__(self,task_id=None,project_id=None,task_name=None,assigned_to=None,due_date=None,task_status="PENDING"):
+    def __init__(self,task_id=0,project_id=0,task_name="",assigned_to="",due_date="",task_status="PENDING"):
         self.task_id=task_id
         self.project_id=project_id
         self.task_name=task_name

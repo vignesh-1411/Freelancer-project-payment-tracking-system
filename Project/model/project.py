@@ -1,5 +1,5 @@
 class Project:
-    def __init__(self, project_id=None,client_id=None,freelancer_id=None,project_name=None,description=None,deadline=None,status="OPEN"):
+    def __init__(self, project_id=0,client_id=0,freelancer_id=0,project_name="",description="",deadline="",status="OPEN"):
         self.project_id=project_id
         self.client_id=client_id
         self.freelancer_id=freelancer_id
