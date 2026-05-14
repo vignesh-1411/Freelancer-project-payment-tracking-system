@@ -1,5 +1,5 @@
 class Freelancer:
-    def __init__(self,freelancer_id=None,name=None,email=None,phone=None,skills=None,experience_years=None):
+    def __init__(self,freelancer_id=0,name="",email="",phone="",skills="",experience_years=0):
         self.freelancer_id=freelancer_id
         self.name=name
         self.email=email

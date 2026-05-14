@@ -47,21 +47,23 @@ def setup_database():
             task_id INT PRIMARY KEY IDENTITY(1,1),
             project_id INT FOREIGN KEY REFERENCES Projects(project_id),
             task_name VARCHAR(100),
-            description VARCHAR(300),
-            deadline VARCHAR(50),
-            status VARCHAR(20) DEFAULT 'OPEN'
+            assigned_to VARCHAR(100),
+            due_date VARCHAR(50),
+            task_status VARCHAR(20) DEFAULT 'OPEN'
         )
     """)
 
     cursor.execute("""
-        IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='Projects' AND xtype='U')
-        CREATE TABLE Projects(
-            project_id INT PRIMARY KEY IDENTITY(1,1),
+        IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='Payments' AND xtype='U')
+        CREATE TABLE Payments(
+            payment_id INT PRIMARY KEY IDENTITY(1,1),
+            project_id INT FOREIGN KEY REFERENCES Projects(project_id),
             client_id INT FOREIGN KEY REFERENCES Clients(client_id),
-            freelancer_id INT FOREIGN KEY REFERENCES Freelancers(freelancer_id),
-            project_name VARCHAR(100),
-            description VARCHAR(300),
-            deadline VARCHAR(50),
-            status VARCHAR(20) DEFAULT 'OPEN'
+            amount DECIMAL(10,2),
+            payment_date VARCHAR(50),
+            payment_status VARCHAR(20) DEFAULT 'OPEN'
         )
     """)
+
+    conn.commit()
+    cursor.close()
