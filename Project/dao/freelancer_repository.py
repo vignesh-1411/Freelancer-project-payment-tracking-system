@@ -23,7 +23,7 @@ class FreelancerRepository(ABC):
     @abstractmethod
     def get_freelancer_by_id(self,freelancer_id:int) -> Freelancer:
         pass
-
+#---------------------------------------------------------------------------------------
     @abstractmethod
     def add_client(self,client:Client) -> bool:
         pass
@@ -37,6 +37,39 @@ class FreelancerRepository(ABC):
         pass
 
     @abstractmethod
-    def get_freelancer_by_id(self,freelancer_id:int) -> Freelancer:
+    def get_client_by_id(self,client_id:int) -> Client:
+        pass
+#-----------------------------------------------------------------------------------------
+
+    @abstractmethod
+    def create_project(self,project:Project) -> bool:
+        pass
+    @abstractmethod
+    def update_project_status(self, project_id:int, status:str) -> bool:
+        pass
+    @abstractmethod
+    def get_projects_by_freelancer(self,freelancer_id:int) -> bool:
+        pass
+    @abstractmethod
+    #-----------------------no need----------------
+    def get_projects_by_clients(self,client_id:int) -> bool:
+        pass
+
+#----------------------------------------------------------------------------------
+
+    @abstractmethod
+    def add_task(self,task:Task) -> bool:
+        pass
+        #---------------------update task status-----------------
+    @abstractmethod
+    def get_tasks_by_project(self,project_id:int) -> bool:
+        pass
+        
+    @abstractmethod
+    def process_payment(self,payment:Payment) -> bool:
+        pass
+        #----------------------------get payment by project
+    @abstractmethod
+    def get_all_payments(self):
         pass
     
