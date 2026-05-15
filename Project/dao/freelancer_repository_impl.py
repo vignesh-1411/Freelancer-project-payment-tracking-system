@@ -28,4 +28,27 @@ class FreelancerRepositoryImpl(FreelancerRepository):
             return False
 
     def update_freelancer(self,freelancer:Freelancer) -> bool:
-        self.get_freelancer_by_id(freelancer.freelancer)
+        self.get_freelancer_by_id(freelancer.freelancer_id)
+        self.cursor.execute(
+            "update Freelancers set name=?, email=?, phone=?, skills=?, experience_years=? where freelancer_id=?",
+            (freelancer.name,freelancer.email,freelancer.phone,freelancer.skills,freelancer.experience_years,freelancer.freelancer_id)
+
+        )
+        self.conn.commit()
+        return True
+
+    def delete_freelancer(self,freelancer_id:int) -> bool:
+        self.get_freelancer_by_id(freelancer_id)
+        self.cursor.execute(
+            "delete from Freelancers where freelancer_id=?",
+            (freelancer_id,)
+        )
+        self.conn.commit()
+        return True
+
+    def get_freelancer_by_id(self,freelancer_id:int) -> Freelancer:
+        self.cursor.execute(
+            "select * from Freelancers where freelancer_id=?",
+            (freelancer_id,)
+        )
+        row=sel
