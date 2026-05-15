@@ -104,4 +104,7 @@ class FreelancerRepositoryImpl(FreelancerRepository):
             self.cursor.execute(
                 self.get_client_by_id(project.client_id)
                 self.get_freelancer_by_id(project.freelancer_id)
+                self.cursor.execute(
+                    "insert into Projects(client_id,)"
+                )
             )
