@@ -45,6 +45,15 @@ class FreelancerApp:
         print("17. View all payments")
         print("18. EXIT")
 
+    #-------------------------------------
+
+    def add_freelancer(self):
+        print("\n-----Add Freelancer---------")
+        try:
+            name=input("Enter Name: ")
+            email=input("Enter email: ")
+            phone=
+
     
 
 if __name__ == '__main__':
