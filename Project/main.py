@@ -52,7 +52,38 @@ class FreelancerApp:
         try:
             name=input("Enter Name: ")
             email=input("Enter email: ")
-            phone=
+            phone=input("Enter phone: ")
+            skills=input("Enter skills: ")
+            experience_years=int(input("Enter YOE: "))
+            freelancer=Freelancer(name=name,email=email,phone=phone,skills=skills,experience_years=experience_years)
+            if self.repo.add_freelancer(freelancer):
+                print("Freelancer added successfully!")
+            else:
+                print("Failed to add Freelancer")
+        except Exception as e:
+            print(f"Error: {e}")
+
+    def update_freelancer(self):
+        print("\n--------Update Freelancer--------")
+        try:
+            freelancer_id=int(input("Enter freelancer ID to update: "))
+            freelancer=self.repo.get_freelancer_by_id(freelancer_id)
+            freelancer.name=input("Enter new name: ")
+            freelancer.email=input("Enter new email: ")
+            freelancer.phone=input("Enter new phone: ")
+            freelancer.skills=input("Enter new skills: ")
+            freelancer.experience_years=int(input("Enter new YOE: "))
+            if self.repo.update_freelancer(freelancer):
+                print("Freelancer updated successfully!")
+            else:
+                print("Failed to update freelancer")
+        except FreelancerNotFoundException as e:
+            print(e)
+        except ValueError:
+            print("Invalid input format!")
+        except Exception as e:
+            print(f"Error: {e}")
+            
 
     
 
