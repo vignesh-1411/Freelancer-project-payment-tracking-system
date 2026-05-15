@@ -75,7 +75,7 @@ class FreelancerRepository(ABC):
         #----------------------------get payment by project
     
     @abstractmethod
-    def get_payment_by_project(self,project_id:int):#----------------------
+    def get_payments_by_project(self,project_id:int):#----------------------
         pass
     
     @abstractmethod

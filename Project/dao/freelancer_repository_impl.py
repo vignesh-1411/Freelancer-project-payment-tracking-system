@@ -187,5 +187,38 @@ class FreelancerRepositoryImpl(FreelancerRepository):
             )
             if self.cursor.fetchone() is None:
                 raise ProjectClosureException(f"Project with ID {payment.project_id} not found")
+            self.get_client_by_id(payment.client_id)
+            self.cursor.execute(
+                "insert into Payments(project_id,client_id,amount,payment_date,payment_status) values (?,?,?,?,?)",
+                (payment.project_id,payment.client_id,payment.amount,payment.payment_date,payment.payment_status)
+            )
+            self.conn.commit()
+            return True
+        except (InvalidPaymentException,ProjectClosureException,ClientNotFoundException):
+            raise
+        except Exception:
+            return False
+    
+    def get_payments_by_project(self,project_id:int):
+        self.cursor.execute(
+            "select * from Payments where project_id=?",(project_id,)
+        )
+        rows=self.cursor.fetchall()
+        return [Task(r[0], r[1], r[2], float(r[3]), r[4], r[5]) for r in rows]
+
+    def get_all_payments(self):
+        self.cursor.execute(
+            "select * from Payments"
+        )
+        rows=self.cursor.fetchall()
+        return [Task(r[0], r[1], r[2], float(r[3]), r[4], r[5]) for r in rows]
+
+
+    
+    def close(self):
+        self.cursor.close()
+        DBConnection.close_connection()
+
+
             
             
