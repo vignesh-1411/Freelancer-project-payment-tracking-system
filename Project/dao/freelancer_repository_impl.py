@@ -114,12 +114,35 @@ class FreelancerRepositoryImpl(FreelancerRepository):
         except Exception:
             return False
     
-    def update_project_status(self,project:Project) -> bool:
+    def update_project_status(self,project_id:int,status:str) -> bool:
         valid_status=["OPEN","IN PROGRESS", "COMPLETED", "CANCELLED"]
         if status not in valid_status:
             raise ProjectClosureException(f"Invalid status '{status}'")
         self.cursor.execute(
-            "update Projects set status"
+            "update Projects set status=? where project_id=?",
+            (status,project_id)
         )
+        self.conn.commit()
+        return True
+
+    def get_projects_by_freelancer(self,freelancer_id:int):
+        self.get_freelancer_by_id(freelancer_id)
+        self.cursor.execute(
+            "select * from Projects where freelancer_id=?",(freelancer_id,)
+        )
+        rows=self.cursor.fetchall()
+        return [Project(r[0], r[1], r[2], r[3], r[4], r[5], r[6]) for r in rows]
+
+    def get_projects_by_clients(self,client_id:int):
+        self.get_client_by_id(client_id)
+        self.cursor.execute(
+            "select * from Projects where client_id=?",(client_id,)
+        )
+        rows=self.cursor.fetchall()
+        return [Project(r[0], r[1], r[2], r[3], r[4], r[5], r[6]) for r in rows]
+
+    #----------------------task methods-------------------------------------------------------
+
+    
             
             
