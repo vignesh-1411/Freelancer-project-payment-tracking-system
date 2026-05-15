@@ -95,7 +95,7 @@ class FreelancerRepositoryImpl(FreelancerRepository):
         row=self.cursor.fetchone()
         if row is None:
             raise ClientNotFoundException(f"Client with ID {client_id} not found")
-        return Client(row[0], row[1], row[2], row[3], row[4]. row[5])
+        return Client(row[0], row[1], row[2], row[3], row[4], row[5])
 
     #---------------------project methods--------------------
 
