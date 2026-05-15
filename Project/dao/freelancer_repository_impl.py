@@ -71,3 +71,11 @@ class FreelancerRepositoryImpl(FreelancerRepository):
 
     def update_client(self,client:Client) -> bool:
         self.get_client_by_id(client.client_id)
+        self.cursor.execute(
+            "update Clients set name=?, email=?, phone=?, company=?, address=? where client_id=?",
+            (client.name,client.email,client.phone,client.company,client.address,client.client_id)
+        )
+        self.conn.commit()
+        return True
+    
+    
