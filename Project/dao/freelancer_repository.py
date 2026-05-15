@@ -48,11 +48,11 @@ class FreelancerRepository(ABC):
     def update_project_status(self, project_id:int, status:str) -> bool:
         pass
     @abstractmethod
-    def get_projects_by_freelancer(self,freelancer_id:int) -> bool:
+    def get_projects_by_freelancer(self,freelancer_id:int):#------------------
         pass
     @abstractmethod
     #-----------------------no need----------------
-    def get_projects_by_clients(self,client_id:int) -> bool:
+    def get_projects_by_clients(self,client_id:int):#-------------------
         pass
 
 #----------------------------------------------------------------------------------
@@ -62,13 +62,22 @@ class FreelancerRepository(ABC):
         pass
         #---------------------update task status-----------------
     @abstractmethod
-    def get_tasks_by_project(self,project_id:int) -> bool:
+    def update_task_status(self,task_id:int,task_status:str) -> bool:
+        pass
+
+    @abstractmethod
+    def get_tasks_by_project(self,project_id:int):#-------------------------
         pass
         
     @abstractmethod
     def process_payment(self,payment:Payment) -> bool:
         pass
         #----------------------------get payment by project
+    
+    @abstractmethod
+    def get_payment_by_project(self,project_id:int):#----------------------
+        pass
+    
     @abstractmethod
     def get_all_payments(self):
         pass

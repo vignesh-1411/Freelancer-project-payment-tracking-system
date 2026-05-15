@@ -78,4 +78,27 @@ class FreelancerRepositoryImpl(FreelancerRepository):
         self.conn.commit()
         return True
     
-    
+    def delete_client(self,client_id:int) -> bool:
+        self.get_client_by_id(client_id)
+        self.cursor.execute(
+            "delete from Clients where client_id=?",
+            (client_id,)
+        )
+        self.conn.commit()
+        return True
+
+    def get_client_by_id(self,client_id:int) -> Client:
+        self.cursor.execute(
+            "select * from Clients where client_id=?",
+            (client_id,)
+        )
+        row=self.cursor.fetchone()
+        if row is None:
+            raise ClientNotFoundException(f"Client with ID {client_id} not found")
+        return Client(row[0], row[1], row[2], row[3], row[4]. row[5])
+
+    #---------------------project methods--------------------
+
+    def create_project(self,project:Project) -> bool:
+        try:
+            s
