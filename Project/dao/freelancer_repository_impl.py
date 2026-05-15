@@ -143,6 +143,49 @@ class FreelancerRepositoryImpl(FreelancerRepository):
 
     #----------------------task methods-------------------------------------------------------
 
-    
+    def add_task(self,task:Task) ->bool:
+        try:
+            if not task.task_name or task.task_name.strip()=="":
+                raise ProjectClosureException("Task name must not be empty")
+            if not task.assigned_to or task.assigned_to.strip()=="":
+                raise ProjectClosureException("Assigned to must not be empty")
+            self.cursor.execute(
+                "insert into Tasks(project_id,task_name,assigned_to,due_date,task_status) values (?,?,?,?,?)",
+                (task.project_id,task.task_name,task.assigned_to,task.due_date,task.task_status)
+            )
+            self.conn.commit()
+            return True
+        except ProjectClosureException:
+            raise
+        except Exception:
+            return False
+
+    def update_task_status(self,task_id:int,task_status:str) -> bool:
+        self.cursor.execute(
+            "update Tasks set task_status=? where task_id=?",(task_status,task_id)
+        )
+        self.conn.commit()
+        return True
+
+    def get_tasks_by_project(self,project_id:int):
+        self.cursor.execute(
+            "select * from Tasks where project_id=?",(project_id,)
+        )
+        rows=self.cursor.fetchall()
+        return [Task(r[0], r[1], r[2], r[3], r[4], r[5]) for r in rows]
+
+    #-------------------payment method-----------------------------------------------------
+
+    def process_payment(self,payment:Payment) -> bool:
+        try:
+            if payment.amount<=0:
+                raise InvalidPaymentException("Amount must be greater than 0")
+            if not payment.payment_date or payment.payment_date.strip()=="":
+                raise InvalidPaymentException("Payment date must not be empty")
+            self.cursor.execute(
+                "select * from Projects where project_id=?",(payment.project_id,)
+            )
+            if self.cursor.fetchone() is None:
+                raise ProjectClosureException(f"Project with ID {payment.project_id} not found")
             
             
