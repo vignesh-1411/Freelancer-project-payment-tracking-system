@@ -61,5 +61,13 @@ class FreelancerRepositoryImpl(FreelancerRepository):
     def add_client(self,client:Client) -> bool:
         try:
             self.cursor.execute(
-                "insert into Clients (name,email,phone)"
+                "insert into Clients (name,email,phone,company,address) values (?,?,?,?,?)",
+                (client.name,client.email,client.phone,client.company,client.address)
             )
+            self.conn.commit()
+            return True
+        except Exception:
+            return False
+
+    def update_client(self,client:Client) -> bool:
+        self.get_client_by_id(client.client_id)
