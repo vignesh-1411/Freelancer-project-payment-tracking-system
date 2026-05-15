@@ -16,4 +16,4 @@ class FreelancerRepositoryImpl(FreelancerRepository):
         self.conn=DBConnection.get_connection()
         self.cursor=self.conn.cursor()
 
-    
+    def add_freelancer
