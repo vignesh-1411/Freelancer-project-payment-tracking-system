@@ -83,7 +83,41 @@ class FreelancerApp:
             print("Invalid input format!")
         except Exception as e:
             print(f"Error: {e}")
-            
+    
+    def delete_freelancer(self):
+        print("\n-----------Delete freelancer------------")
+        try:
+            freelancer_id=int(input("Enter freelancer ID to delete: "))
+            if self.repo.delete_freelancer(freelancer_id):
+                print("Freelancer deleted successfully")
+            else:
+                print("Failed to delete freelancer")
+        except FreelancerNotFoundException as e:
+            print(e)
+        except ValueError:
+            print("Invalid input format!")
+        except Exception as e:
+            print(f"Error: {e}")
+
+    def view_freelancer_by_id(self):
+        print("\n-----------View freelancer by ID------------")
+        try:
+            freelancer_id=int(input("Enter freelancer ID: "))
+            freelancer=self.repo.get_freelancer_by_id(freelancer_id)
+            print(freelancer)
+        except FreelancerNotFoundException as e:
+            print(e)
+        except ValueError:
+            print("Invalid input format!")
+        except Exception as e:
+            print(f"Error: {e}")
+
+    #----------------------CLIENT----------------------------
+
+    def add_client(self):
+        
+
+
 
     
 
