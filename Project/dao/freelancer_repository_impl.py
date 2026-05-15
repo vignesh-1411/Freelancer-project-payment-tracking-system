@@ -101,4 +101,7 @@ class FreelancerRepositoryImpl(FreelancerRepository):
 
     def create_project(self,project:Project) -> bool:
         try:
-            s
+            self.cursor.execute(
+                self.get_client_by_id(project.client_id)
+                self.get_freelancer_by_id(project.freelancer_id)
+            )
