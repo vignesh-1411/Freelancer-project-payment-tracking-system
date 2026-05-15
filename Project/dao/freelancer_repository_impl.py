@@ -16,4 +16,16 @@ class FreelancerRepositoryImpl(FreelancerRepository):
         self.conn=DBConnection.get_connection()
         self.cursor=self.conn.cursor()
 
-    def add_freelancer
+    def add_freelancer(self,freelancer:Freelancer) -> bool:
+        try:
+            self.cursor.execute(
+                "insert into Freelancers (name,email,phone,skills,experience_years) values (?,?,?,?,?)",
+                (freelancer.name,freelancer.email,freelancer.phone,freelancer.skills,freelancer.experience_years)
+            )
+            self.conn.commit()
+            return True
+        except Exception:
+            return False
+
+    def update_freelancer(self,freelancer:Freelancer) -> bool:
+        self.get_freelancer_by_id(freelancer.freelancer)
