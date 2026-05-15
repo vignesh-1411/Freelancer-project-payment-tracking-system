@@ -101,10 +101,25 @@ class FreelancerRepositoryImpl(FreelancerRepository):
 
     def create_project(self,project:Project) -> bool:
         try:
+            self.get_client_by_id(project.client_id)
+            self.get_freelancer_by_id(project.freelancer_id)
             self.cursor.execute(
-                self.get_client_by_id(project.client_id)
-                self.get_freelancer_by_id(project.freelancer_id)
-                self.cursor.execute(
-                    "insert into Projects(client_id,)"
-                )
+                "insert into Projects(client_id,freelancer_id,project_name,description,deadline,status) values (?,?,?,?,?,?)",
+                (project.client_id,project.freelancer_id,project.project_name,project.description,project.deadline,project.status)
             )
+            self.conn.commit()
+            return True
+        except (ClientNotFoundException,FreelancerNotFoundException):
+            raise
+        except Exception:
+            return False
+    
+    def update_project_status(self,project:Project) -> bool:
+        valid_status=["OPEN","IN PROGRESS", "COMPLETED", "CANCELLED"]
+        if status not in valid_status:
+            raise ProjectClosureException(f"Invalid status '{status}'")
+        self.cursor.execute(
+            "update Projects set status"
+        )
+            
+            
