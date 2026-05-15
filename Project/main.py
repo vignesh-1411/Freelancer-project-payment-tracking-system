@@ -114,7 +114,7 @@ class FreelancerApp:
 
     #----------------------CLIENT----------------------------
 
-    # def add_client(self):
+    def add_client(self)
         
 
 
