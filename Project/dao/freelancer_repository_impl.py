@@ -51,4 +51,15 @@ class FreelancerRepositoryImpl(FreelancerRepository):
             "select * from Freelancers where freelancer_id=?",
             (freelancer_id,)
         )
-        row=sel
+        row=self.cursor.fetchone()
+        if row is None:
+            raise FreelancerNotFoundException(f"Freelancer with ID {freelancer_id} not found")
+        return Freelancer(row[0], row[1], row[2], row[3], row[4], row[5])
+
+    #------------client methods-----------------------
+
+    def add_client(self,client:Client) -> bool:
+        try:
+            self.cursor.execute(
+                "insert into Clients (name,email,phone)"
+            )
