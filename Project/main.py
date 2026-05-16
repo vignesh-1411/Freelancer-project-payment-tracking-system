@@ -396,7 +396,7 @@ class FreelancerApp:
                     self.update_project_status()
                 elif choice==10:
                     self.view_projects_by_freelancer()
-                elif choice==11:
+                elihoice==11:
                     self.view_projects_by_client()
                 elif choice==12:
                     self.add_task()
