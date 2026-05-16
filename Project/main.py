@@ -260,19 +260,41 @@ class FreelancerApp:
             assigned_to=input("Enter assigned to: ")
             due_date=input("Enter due date (YYYY-MM-DD): ")
             print("1. PENDING   2.IN PROGRESS   3.COMPLETED     4.CANCELLED")
-            project=Project(client_id=client_id,freelancer_id=freelancer_id,project_name=project_name,description=description,deadline=deadline)
-            if self.repo.create_project(project):
-                print("Project created successfully")
+            choice=int(input("Enter task status choice: "))
+            status_map={1:"PENDING", 2:"IN PROGRESS", 3:"COMPLETED", 4."CANCELLED"}
+            task_status=status_map.get(choice,"PENDING")
+            task=Task(project_id=project_id,task_name=task_name,assigned_to=assigned_to,due_date=due_date,task_status=task_status)
+            if self.repo.add_task(task):
+                print("Task added successfully")
             else:
-                print("Failed to create project")
-        except ClientNotFoundException as e:
-            print(e)
-        except FreelancerNotFoundException as e:
+                print("Failed to add task")
+        except ProjectClosureException as e:
             print(e)
         except ValueError:
             print("Invalid input format!")
         except Exception as e:
             print(f"Error: {e}")
+
+    def update_task_status(self):
+        print("\n--------Update task status----------")
+        try:
+            task_id=int(input("Enter task ID to update: "))
+            print("1. PENDING   2.IN PROGRESS   3.COMPLETED     4.CANCELLED")
+            choice=int(input("Enter task status choice: "))
+            status_map={1:"PENDING", 2:"IN PROGRESS", 3:"COMPLETED", 4."CANCELLED"}
+            task_status=status_map.get(choice,"PENDING")
+            if self.repo.update_task_status(task_id):
+                print(f"Task status updated to {task_status} successfully!")
+            else:
+                print("Failed to update task status")
+        except ValueError:
+            print("Invalid input format!")
+        except Exception as e:
+            print(f"Error: {e}")
+
+    def view_tasks_by_project(self):
+        
+
 
             
 
