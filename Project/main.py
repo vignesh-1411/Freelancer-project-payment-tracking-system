@@ -196,7 +196,7 @@ class FreelancerApp:
             project_id=int(input("Enter project ID to update: "))
             print(" 1.OPEN   2.IN PROGRESS   3.COMPLETED   4.CANCELLED")
             choice=int(input("Enter choice: "))
-            status_map={1:"OPEN", 2:"IN PROGRESS", 3:"COMPLETED", 4."CANCELLED"}
+            status_map={1:"OPEN", 2:"IN PROGRESS", 3:"COMPLETED", 4:"CANCELLED"}
             status=status_map.get(choice,"")
             if self.repo.update_project_status(project_id,status):
                 print(f"Project status updated to {status} successfully!")
@@ -261,7 +261,7 @@ class FreelancerApp:
             due_date=input("Enter due date (YYYY-MM-DD): ")
             print("1. PENDING   2.IN PROGRESS   3.COMPLETED     4.CANCELLED")
             choice=int(input("Enter task status choice: "))
-            status_map={1:"PENDING", 2:"IN PROGRESS", 3:"COMPLETED", 4."CANCELLED"}
+            status_map={1:"PENDING", 2:"IN PROGRESS", 3:"COMPLETED", 4:"CANCELLED"}
             task_status=status_map.get(choice,"PENDING")
             task=Task(project_id=project_id,task_name=task_name,assigned_to=assigned_to,due_date=due_date,task_status=task_status)
             if self.repo.add_task(task):
@@ -281,7 +281,7 @@ class FreelancerApp:
             task_id=int(input("Enter task ID to update: "))
             print("1. PENDING   2.IN PROGRESS   3.COMPLETED     4.CANCELLED")
             choice=int(input("Enter task status choice: "))
-            status_map={1:"PENDING", 2:"IN PROGRESS", 3:"COMPLETED", 4."CANCELLED"}
+            status_map={1:"PENDING", 2:"IN PROGRESS", 3:"COMPLETED", 4:"CANCELLED"}
             task_status=status_map.get(choice,"PENDING")
             if self.repo.update_task_status(task_id):
                 print(f"Task status updated to {task_status} successfully!")
@@ -320,7 +320,7 @@ class FreelancerApp:
             payment_date=input("Enter payment date (YYYY-MM-DD): ")
             print("1. PENDING   2.PAID   3.PARTIALLY PAID     4.CANCELLED")
             choice=int(input("Enter task status choice: "))
-            status_map={1:"PENDING", 2:"PAID", 3:"PARTIALLY PAID", 4."CANCELLED"}
+            status_map={1:"PENDING", 2:"PAID", 3:"PARTIALLY PAID", 4:"CANCELLED"}
             payment_status=status_map.get(choice,"PENDING")
             payment=Payment(project_id=project_id,client_id=client_id,amount=amount,payment_date=payment_date,payment_status=payment_status)
             if self.repo.process_payment(payment):
@@ -360,29 +360,77 @@ class FreelancerApp:
         try:
             payments=self.repo.get_all_payments()
             if payments:
-                print(f"\n{'Pay ID':<10}{'Client ID':<12}{'amount':<12}{'date':<15}{'status'}")
+                print(f"\n{'Pay ID':<10}{'Project ID':<12}{'Client ID':<12}{'amount':<12}{'date':<15}{'status'}")
                 print("-"*50)
                 for p in payments:
-                    print(f"{p.payment_id:<10}{p.client_id:<12}{p.amount:<12}{p.payment_date:<15}{p.payment_status}")
+                    print(f"{p.payment_id:<10}{p.project_id:<12}{p.client_id:<12}{p.amount:<12}{p.payment_date:<15}{p.payment_status}")
             else:
                 print("No payments found")
         except Exception as e:
             print(f"Error: {e}")
 
+    #----------------------------------MAIN LOOP-------------------------------
+
+    def run(self):
+        while True:
+            try:
+                self.display_menu()
+                choice=int(input("Enter your choice(1-18): "))
+                if choice==1:
+                    self.add_freelancer()
+                elif choice==2:
+                    self.update_freelancer()
+                elif choice==3:
+                    self.delete_freelancer()
+                elif choice==4:
+                    self.view_freelancer_by_id()
+                elif choice==5:
+                    self.add_client()
+                elif choice==6:
+                    self.update_client()
+                elif choice==7:
+                    self.delete_client()
+                elif choice==8:
+                    self.create_project()
+                elif choice==9:
+                    self.update_project_status()
+                elif choice==10:
+                    self.view_projects_by_freelancer()
+                elif choice==11:
+                    self.view_projects_by_client()
+                elif choice==12:
+                    self.add_task()
+                elif choice==13:
+                    self.update_task_status()
+                elif choice==14:
+                    self.view_tasks_by_project()
+                elif choice==15:
+                    self.process_payment()
+                elif choice==16:
+                    self.view_payments_by_project
+                elif choice==17:
+                    self.view_all_payments()
+                elif choice==18:
+                    print("THANK YOU FOR USING FREELANCER PROJECT AND PAYMENT TRACKING SYSTEM. GOODBYE!")
+                    self.repo.close()
+                    break
+                else:
+                    print("Invalid choice! Please try again (1-18)")
+            except ValueError:
+                print("Error: please enter valid number!")
+            except KeyboardInterrupt:
+                print("\nApplication terminated by user.")
+                self.repo.close()
+                break
+            except Exception as e:
+                print(f"Unexpected Error: {e}")
+                self.repo.close()
+                break
             
-
-
-            
-
-
-
-        
-
-
-
+                
     
 
 if __name__ == '__main__':
     setup_database()
-    # app = FreelancerApp()
-    # app.run()
+    app = FreelancerApp()
+    app.run()
