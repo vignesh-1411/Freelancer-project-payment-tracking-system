@@ -168,7 +168,47 @@ class FreelancerApp:
 
     #----------------------PROJECT---------------------------------
 
+    def create_project(self):
+        print("\n---------Create Project-----------")
+        try:
+            client_id=int(input("Enter client ID: "))
+            freelancer_id=int(input("Enter freelancer ID: "))
+            project_name=input("Enter project name: ")
+            description=input("Enter description: ")
+            deadline=input("Enter deadline (YYYY-MM-DD): ")
+            project=Project(client_id=client_id,freelancer_id=freelancer_id,project_name=project_name,description=description,deadline=deadline)
+            if self.repo.create_project(project):
+                print("Project created successfully")
+            else:
+                print("Failed to create project")
+        except ClientNotFoundException as e:
+            print(e)
+        except FreelancerNotFoundException as e:
+            print(e)
+        except ValueError:
+            print("Invalid input format!")
+        except Exception as e:
+            print(f"Error: {e}")
     
+    def update_project_status(self):
+        print("\n--------Update project status--------")
+        try:
+            project_id=int(input("Enter project ID to update: "))
+            print(" 1.OPEN   2.IN PROGRESS   3.COMPLETED   4.CANCELLED")
+            choice=int(input("Enter choice: "))
+            status_map={1:"OPEN", 2:"IN PROGRESS", 3:"COMPLETED", 4."CANCELLED"}
+            status=status_map.get(choice,"")
+            if self.repo.update_project_status(project_id,status):
+                print(f"Project status updated to {status} successfully!")
+            else:
+                print("Failed to update project status")
+        except ProjectClosureException as e:
+            print(e)
+        except ValueError:
+            print("Invalid input format!")
+        except Exception as e:
+            print(f"Error: {e}")
+
 
 
         
