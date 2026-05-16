@@ -209,6 +209,49 @@ class FreelancerApp:
         except Exception as e:
             print(f"Error: {e}")
 
+    def view_projects_by_freelancer(self):
+        print("\n----------view projects by freelancer ID------------")
+        try:
+            freelancer_id=int(input("Enter freelancer ID: "))
+            projects=self.repo.get_projects_by_freelancer(freelancer_id)
+            if projects:
+                print(f"\n Projects for freelancer id {freelancer_id}")
+                print("-"*50)
+                for p in projects:
+                    print(f"ID={p.project_id} CLIENT ID: {p.client_id}"
+                        f"Name={p.project_name} Deadline={p.deadline} Status={p.status}")
+                print("-"*50)
+            else:
+                print("no projects found for this freelancer.")
+        except FreelancerNotFoundException as e:
+            print(e)
+        except ValueError:
+            print("Invalid input format!")
+        except Exception as e:
+            print(f"Error: {e}")
+
+    def view_projects_by_client(self):
+        print("\n----------view projects by client--------------")
+        try:
+            client_id=int(input("Enter client ID: "))
+            projects=self.repo.get_projects_by_client(client_id)
+            if projects:
+                print(f"\n Projects for client id {client_id}")
+                print("-"*50)
+                for p in projects:
+                    print(f"ID={p.project_id} FREELANCER ID: {p.freelancer_id}"
+                        f"Name={p.project_name} Deadline={p.deadline} Status={p.status}")
+                print("-"*50)
+            else:
+                print("no projects found for this client.")
+        except ClientNotFoundException as e:
+            print(e)
+        except ValueError:
+            print("Invalid input format!")
+        except Exception as e:
+            print(f"Error: {e}")
+            
+
 
 
         
