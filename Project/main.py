@@ -250,6 +250,30 @@ class FreelancerApp:
             print("Invalid input format!")
         except Exception as e:
             print(f"Error: {e}")
+
+    #--------------------------TASK---------------------
+    def add_task(self):
+        print("\n------------Add task-------------")
+        try:
+            project_id=int(input("Enter project ID: "))
+            task_name=input("Enter task name: ")
+            assigned_to=input("Enter assigned to: ")
+            due_date=input("Enter due date (YYYY-MM-DD): ")
+            print("1. PENDING   2.IN PROGRESS   3.COMPLETED     4.CANCELLED")
+            project=Project(client_id=client_id,freelancer_id=freelancer_id,project_name=project_name,description=description,deadline=deadline)
+            if self.repo.create_project(project):
+                print("Project created successfully")
+            else:
+                print("Failed to create project")
+        except ClientNotFoundException as e:
+            print(e)
+        except FreelancerNotFoundException as e:
+            print(e)
+        except ValueError:
+            print("Invalid input format!")
+        except Exception as e:
+            print(f"Error: {e}")
+
             
 
 
