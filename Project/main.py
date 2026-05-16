@@ -324,15 +324,51 @@ class FreelancerApp:
             payment_status=status_map.get(choice,"PENDING")
             payment=Payment(project_id=project_id,client_id=client_id,amount=amount,payment_date=payment_date,payment_status=payment_status)
             if self.repo.process_payment(payment):
-                print("Task added successfully")
+                print("Payment processed successfully")
             else:
-                print("Failed to add task")
+                print("Failed to process payment")
+        except InvalidPaymentException as e:
+            print(e)
         except ProjectClosureException as e:
+            print(e)
+        except ClientNotFoundException as e:
             print(e)
         except ValueError:
             print("Invalid input format!")
         except Exception as e:
             print(f"Error: {e}")
+
+    def view_payments_by_project(self):
+        print("\n-------view payments by project-----------")
+        try:
+            project_id=int(input("Enter project ID: "))
+            payments=self.repo.get_payments_by_project(project_id)
+            if payments:
+                print(f"\n{'Pay ID':<10}{'Client ID':<12}{'amount':<12}{'date':<15}{'status'}")
+                print("-"*50)
+                for p in payments:
+                    print(f"{p.payment_id:<10}{p.client_id:<12}{p.amount:<12}{p.payment_date:<15}{p.payment_status}")
+            else:
+                print("No payments found for the project")
+        except ValueError:
+            print("Invalid input format!")
+        except Exception as e:
+            print(f"Error: {e}")
+
+    def view_all_payments(self):
+        print("\n-----------view all payments--------------")
+        try:
+            payments=self.repo.get_all_payments()
+            if payments:
+                print(f"\n{'Pay ID':<10}{'Client ID':<12}{'amount':<12}{'date':<15}{'status'}")
+                print("-"*50)
+                for p in payments:
+                    print(f"{p.payment_id:<10}{p.client_id:<12}{p.amount:<12}{p.payment_date:<15}{p.payment_status}")
+            else:
+                print("No payments found")
+        except Exception as e:
+            print(f"Error: {e}")
+
             
 
 
