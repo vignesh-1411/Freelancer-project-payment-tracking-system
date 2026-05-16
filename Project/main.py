@@ -114,7 +114,63 @@ class FreelancerApp:
 
     #----------------------CLIENT----------------------------
 
-    # def add_client(self)
+    def add_client(self):
+        print("\n-------Add Client-------")
+        try:
+            name=input("Enter name: ")
+            email=input("Enter email: ")
+            phone=input("Enter phone: ")
+            company=input("Enter company: ")
+            address=input("Enter address: ")
+            client=Client(name=name,email=email,phone=phone,company=company,address=address)
+            if self.repo.add_client(client):
+                print("Client added successfully")
+            else:
+                print("Failed to add client")
+        except Exception as e:
+            print(f"Error: {e}")
+
+    def update_client(self):
+        print("\n----------Update client---------")
+        try:
+            client_id=int(input("Enter client ID to update: "))
+            client=self.repo.get_client_by_id(client_id)
+            client.name=input("Enter new name: ")
+            client.email=input("Enter new email: ")
+            client.phone=input("Enter new phone: ")
+            client.company=input("Enter new company: ")
+            client.address=input("Enter new address: ")
+            if self.repo.update_client(client):
+                print("Client updated successfully!")
+            else:
+                print("Failed to update client")
+        except ClientNotFoundException as e:
+            print(e)
+        except ValueError:
+            print("Invalid input format!")
+        except Exception as e:
+            print(f"Error: {e}")
+
+    def delete_client(self):
+        print("\n-----------Delete Client------------")
+        try:
+            client_id=int(input("Enter client ID to delete: "))
+            if self.repo.delete_client(client_id):
+                print("client deleted successfully")
+            else:
+                print("Failed to delete client")
+        except ClientNotFoundException as e:
+            print(e)
+        except ValueError:
+            print("Invalid input format!")
+        except Exception as e:
+            print(f"Error: {e}")
+
+    #----------------------PROJECT---------------------------------
+
+    
+
+
         
 
 
