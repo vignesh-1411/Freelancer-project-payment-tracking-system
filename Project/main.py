@@ -293,7 +293,47 @@ class FreelancerApp:
             print(f"Error: {e}")
 
     def view_tasks_by_project(self):
-        
+        print("\n---------view tasks by project------------")
+        try:
+            project_id=int(input("Enter project ID: "))
+            tasks=self.repo.get_tasks_by_project(project_id)
+            if tasks:
+                print(f"\n{'Task ID':<10}{'task name':<20}{'assigned to':<20}{'due date':<15}{'status'}")
+                print("-"*50)
+                for t in tasks:
+                    print(f"{t.task_id:<10}{t.task_name:<20}{t.assigned_to:<20}{t.due_date:<15}{t.task_status}")
+            else:
+                print("No tasks found for the project")
+        except ValueError:
+            print("Invalid input format!")
+        except Exception as e:
+            print(f"Error: {e}")
+
+    #------------------------PAYMENT-------------------------------
+
+    def process_payment(self):
+        print("\n----------Process Payment------------")
+        try:
+            project_id=int(input("Enter project ID: "))
+            client_id=int(input("Enter client ID: "))
+            amount=float(input("Enter amount: "))
+            payment_date=input("Enter payment date (YYYY-MM-DD): ")
+            print("1. PENDING   2.PAID   3.PARTIALLY PAID     4.CANCELLED")
+            choice=int(input("Enter task status choice: "))
+            status_map={1:"PENDING", 2:"PAID", 3:"PARTIALLY PAID", 4."CANCELLED"}
+            payment_status=status_map.get(choice,"PENDING")
+            payment=Payment(project_id=project_id,client_id=client_id,amount=amount,payment_date=payment_date,payment_status=payment_status)
+            if self.repo.process_payment(payment):
+                print("Task added successfully")
+            else:
+                print("Failed to add task")
+        except ProjectClosureException as e:
+            print(e)
+        except ValueError:
+            print("Invalid input format!")
+        except Exception as e:
+            print(f"Error: {e}")
+            
 
 
             
